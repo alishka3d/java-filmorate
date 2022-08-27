@@ -25,7 +25,7 @@ public class UserController {
     }
 
     @PostMapping
-    public User createFilm(@RequestBody User user) throws ValidationException {
+    public User createUser(@RequestBody User user) throws ValidationException {
         if (users.containsKey(user.getId())) {
             log.error("Пользователь {} уже существует.", user);
             throw new ValidationException("Пользователь" + user + "уже существует.");
