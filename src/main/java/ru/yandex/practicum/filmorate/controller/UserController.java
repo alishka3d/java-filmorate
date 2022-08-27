@@ -29,19 +29,19 @@ public class UserController {
         if (users.containsKey(user.getId())) {
             log.error("Пользователь {} уже существует.", user);
             throw new ValidationException("Пользователь" + user + "уже существует.");
-        }else if(user.getEmail().isBlank()) {
+        } else if (user.getEmail().isBlank()) {
             log.error("Email не указан");
             throw new ValidationException("Email не указан");
-        }else if(!user.getEmail().contains("@")) {
+        } else if (!user.getEmail().contains("@")) {
             log.error("Email должен содержать @");
             throw new ValidationException("Email должен содержать @");
-        }else if(user.getLogin().isBlank()) {
+        } else if (user.getLogin().isBlank()) {
             log.error("Логин не указан");
             throw new ValidationException("Логин не указан");
-        }else if(user.getLogin().contains(" ")) {
+        } else if (user.getLogin().contains(" ")) {
             log.error("Логин не может содержать пробел");
             throw new ValidationException("Логин не может содержать пробел");
-        }else if(user.getBirthday().isAfter(LocalDate.now())) {
+        } else if (user.getBirthday().isAfter(LocalDate.now())) {
             log.error("Дата рождения не может быть в будущем");
             throw new ValidationException("Дата рождения не может быть в будущем");
         } else {
