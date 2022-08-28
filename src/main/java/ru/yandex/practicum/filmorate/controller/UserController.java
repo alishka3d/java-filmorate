@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @PostMapping
-    public User createUser(@Valid @RequestBody User user) throws ValidationException {
+    public User createUser(@RequestBody User user) throws ValidationException {
         if (users.containsKey(user.getId())) {
             log.error("Пользователь {} уже существует.", user);
             throw new ValidationException("Пользователь" + user + "уже существует.");
@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @PutMapping
-    public User updateFilm(@Valid @RequestBody User user) throws ValidationException {
+    public User updateFilm(@RequestBody User user) throws ValidationException {
         if (users.containsKey(user.getId())) {
             validateUser(user);
             if (user.getName().isBlank()) {

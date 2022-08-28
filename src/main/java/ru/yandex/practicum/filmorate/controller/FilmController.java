@@ -29,7 +29,7 @@ public class FilmController {
     }
 
     @PostMapping
-    public Film createFilm(@Valid @RequestBody Film film) throws ValidationException {
+    public Film createFilm(@RequestBody Film film) throws ValidationException {
         if (films.containsKey(film.getId())) {
             log.error("Фильм: {} уже существует.", film.getName());
             throw new ValidationException("Фильм: " + film.getName() + " уже существует.");
@@ -43,7 +43,7 @@ public class FilmController {
     }
 
     @PutMapping
-    public Film updateFilm(@Valid @RequestBody Film film) throws ValidationException {
+    public Film updateFilm(@RequestBody Film film) throws ValidationException {
         if (films.containsKey(film.getId())) {
             validateFilm(film);
             films.put(film.getId(), film);
