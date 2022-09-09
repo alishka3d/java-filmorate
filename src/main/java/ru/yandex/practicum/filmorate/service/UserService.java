@@ -39,12 +39,17 @@ public class UserService {
     public void addFriend(int id, int friendId) {
         userStorage.findById(friendId);     // если пользователь не найден, то метод выбросит исключение
         userStorage.findById(id).getFriends().add(friendId);
+        log.info("пользователь с id {} добавлен в друзья пользователю с id {}", friendId, id);
         userStorage.findById(friendId).getFriends().add(id);
+        log.info("пользователь с id {} добавлен в друзья пользователю с id {}", id, friendId);
     }
 
     public void removeFriend(int id, int friendId) {
         userStorage.findById(friendId);
         userStorage.findById(id).getFriends().remove(friendId);
+        log.info("пользователь с id {} удалил из друзей пользователю с id {}", id, friendId);
+        userStorage.findById(friendId).getFriends().remove(id);
+        log.info("пользователь с id {} удалил из друзей пользователю с id {}", friendId, id);
     }
 
     public List<User> getAllFriends(int id) {

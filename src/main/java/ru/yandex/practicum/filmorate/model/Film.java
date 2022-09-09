@@ -12,6 +12,7 @@ import java.util.Set;
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class Film {
 
     @Min(value = 1)

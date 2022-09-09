@@ -36,6 +36,7 @@ public class InMemoryUserStorage implements UserStorage {
             }
             user.setId(++id);
             users.put(user.getId(), user);
+            log.info("создан новый пользователь");
             return user;
         }
     }
@@ -49,16 +50,18 @@ public class InMemoryUserStorage implements UserStorage {
                 user.setName(user.getLogin());
             }
             users.put(user.getId(), user);
+            log.info("пользователь успешно обновлён");
             return user;
         } else {
             log.error("Пользователь не найден.");
-            throw new ValidationException("Пользователь не найден.");
+            throw new UserNotFoundException("Пользователь не найден.");
         }
     }
 
     @Override
     public User findById(int id) {
         if (users.containsKey(id)) {
+            log.info("пользователь с id {} найден", id);
             return users.get(id);
         } else {
             log.error("Пользователь с id {} не найден", id);

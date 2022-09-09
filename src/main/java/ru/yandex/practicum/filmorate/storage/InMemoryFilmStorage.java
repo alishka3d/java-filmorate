@@ -48,7 +48,7 @@ public class InMemoryFilmStorage implements FilmStorage {
             return film;
         } else {
             log.error("Фильм: {} не найден", film.getName());
-            throw new ValidationException("Фильм: " + film.getName() + " не найден");
+            throw new FilmNotFoundException("Фильм: " + film.getName() + " не найден");
         }
     }
 

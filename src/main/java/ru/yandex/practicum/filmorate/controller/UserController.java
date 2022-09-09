@@ -27,12 +27,12 @@ public class UserController {
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user) throws ValidationException {
+    public User createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
 
     @PutMapping
-    public User updateFilm(@RequestBody User user) throws ValidationException {
+    public User updateFilm(@RequestBody User user) {
         return userService.updateUser(user);
     }
 

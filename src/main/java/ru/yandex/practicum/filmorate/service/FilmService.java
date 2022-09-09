@@ -40,13 +40,15 @@ public class FilmService {
     }
 
     public void putLike(int id, int userId) {
-        if (isContains(id, userId))
-            filmStorage.findById(id).getLikes().add(userId);
+        filmStorage.findById(id).getLikes().add(userId);
     }
 
     public void removeLike(int id, int userId) {
-        if (isContains(id, userId))
+        if (filmStorage.findById(id).getLikes().contains(userId)) {
             filmStorage.findById(id).getLikes().remove(userId);
+        } else {
+            throw new  UserNotFoundException("Пользователь с таким id не лайкал данный фильм");
+        }
     }
 
     public List<Film> popularFilms(int count) {
