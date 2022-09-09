@@ -9,9 +9,11 @@ public interface FilmStorage {
 
     List<Film> getFilms();
 
-    Film createFilm( Film film);
+    Film createFilm(Film film);
 
-    Film updateFilm( Film film);
+    Film updateFilm(Film film);
+
+    void removeFilm(int id);
 
     Film findById(int id);
 }

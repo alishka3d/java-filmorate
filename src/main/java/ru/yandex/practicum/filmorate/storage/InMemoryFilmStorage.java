@@ -62,7 +62,18 @@ public class InMemoryFilmStorage implements FilmStorage {
         }
     }
 
-    private void validateFilm(Film film) throws ValidationException {
+    @Override
+    public void removeFilm(int id) {
+        if (films.containsKey(id)) {
+            films.remove(id);
+            log.info("Фильм удалён");
+        } else {
+            log.error("Ошибка удаления. Фильм не найден");
+            throw new FilmNotFoundException("Ошибка удаления. Фильм не найден");
+        }
+    }
+
+    private void validateFilm(Film film) {
         if (film.getId() < 0) {
             log.error("id не может быть отрицательным");
             throw new ValidationException("id не может быть отрицательным");

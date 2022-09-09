@@ -13,7 +13,7 @@ import java.util.List;
 @Slf4j
 public class UserService {
 
-    UserStorage userStorage;
+    private UserStorage userStorage;
 
     @Autowired
     public UserService(UserStorage userStorage) {

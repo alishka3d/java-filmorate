@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class FilmService {
 
-    FilmStorage filmStorage;
+    private FilmStorage filmStorage;
 
     @Autowired
     public FilmService(FilmStorage filmStorage) {
@@ -39,6 +39,10 @@ public class FilmService {
         return filmStorage.findById(id);
     }
 
+    public void removeFilm(int id) {
+        filmStorage.removeFilm(id);
+    }
+
     public void putLike(int id, int userId) {
         filmStorage.findById(id).getLikes().add(userId);
     }
@@ -47,7 +51,7 @@ public class FilmService {
         if (filmStorage.findById(id).getLikes().contains(userId)) {
             filmStorage.findById(id).getLikes().remove(userId);
         } else {
-            throw new  UserNotFoundException("Пользователь с таким id не лайкал данный фильм");
+            throw new UserNotFoundException("Пользователь с таким id не лайкал данный фильм");
         }
     }
 
@@ -58,17 +62,5 @@ public class FilmService {
                 .limit(count).collect(Collectors.toList());
     }
 
-    private boolean isContains(int id, int userId) {
-        if (filmStorage.findById(id).getLikes().contains(userId)) {
-            if (filmStorage.findById(id).getLikes().contains(id)) {
-                return true;
-            } else {
-                log.error("Фильм c id - {} не найден", id);
-                throw new FilmNotFoundException("Фильм c id " + id + " не найден");
-            }
-        } else {
-            log.error("Пользователь c id - {} не найден", id);
-            throw new UserNotFoundException("Пользователь с id " + userId + " не найден");
-        }
-    }
+
 }

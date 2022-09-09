@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/films")
 public class FilmController {
 
-    FilmService filmService;
+    private FilmService filmService;
 
     @Autowired
     public FilmController(FilmService filmService) {
@@ -39,6 +39,11 @@ public class FilmController {
     @GetMapping("/{id}")
     public Film findById(@PathVariable int id) {
         return filmService.findById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void removeFilm(@PathVariable int id) {
+        filmService.removeFilm(id);
     }
 
     @PutMapping("/{id}/like/{userId}")
