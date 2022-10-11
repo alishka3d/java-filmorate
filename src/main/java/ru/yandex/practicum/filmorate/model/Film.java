@@ -7,6 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Data
@@ -27,4 +28,6 @@ public class Film {
     private LocalDate releaseDate;
     private long duration;
     private Set<Integer> likes = new HashSet<>();
+    private Mpa mpa;
+    private Set<Genre> genres = new LinkedHashSet<>();
 }
