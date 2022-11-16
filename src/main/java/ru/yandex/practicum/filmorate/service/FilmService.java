@@ -12,15 +12,17 @@ import ru.yandex.practicum.filmorate.storage.LikeDaoStorage;
 
 import java.util.List;
 
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class FilmService {
 
-    private FilmDaoStorage filmDaoStorage;
+    private final FilmDaoStorage filmDaoStorage;
     private final LikeDaoStorage likeDaoStorage;
-    private final FilmGenresDaoStorage filmGenresDaoStorage;
+
     private final GenreDaoStorage genreDaoStorage;
+    private final FilmGenresDaoStorage filmGenresDaoStorage;
 
     private void loadData(Film film) {
         film.setGenres(genreDaoStorage.getGenresByFilm(film));

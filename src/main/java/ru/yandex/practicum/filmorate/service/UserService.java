@@ -19,6 +19,7 @@ public class UserService {
     private final UserDaoStorage userDaoStorage;
     private final FriendsDaoStorage friendsDaoStorage;
 
+
     public List<User> findAll() {
         return userDaoStorage.getUsers();
     }

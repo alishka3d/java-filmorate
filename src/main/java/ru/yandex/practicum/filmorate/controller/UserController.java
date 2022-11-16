@@ -1,44 +1,46 @@
 package ru.yandex.practicum.filmorate.controller;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
 
+import javax.validation.Valid;
 import java.util.List;
 
+
 @RestController
-@Slf4j
+@RequiredArgsConstructor
 @RequestMapping("/users")
+@Validated
 public class UserController {
 
-    private UserService userService;
-
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private final UserService userService;
 
     @GetMapping
-    public List<User> getUser() {
+    public List<User> getUsers() {
         return userService.findAll();
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
+    public User createUser(@Valid @RequestBody User user) {
         return userService.createUser(user);
     }
 
     @PutMapping
-    public User updateFilm(@RequestBody User user) {
+    public User updateUser(@Valid @RequestBody User user) {
         return userService.updateUser(user);
     }
 
     @GetMapping("/{id}")
-    public User findBId(@PathVariable int id){
+    public User findBId(@PathVariable int id) {
         return userService.findById(id);
+    }
+
+    @DeleteMapping
+    public void removeUser(@Valid @RequestBody User user) {
+        userService.removeUser(user);
     }
 
     @PutMapping("/{id}/friends/{friendId}")
@@ -56,9 +58,8 @@ public class UserController {
         return userService.getAllFriends(id);
     }
 
-    @GetMapping("/{id}/friends/common/{anotherId}")
-    public List<User> getCommonFriends(@PathVariable int id, @PathVariable int anotherId) {
-        return userService.getCommonFriends(id, anotherId);
+    @GetMapping("/{id}/friends/common/{otherId}")
+    public List<User> getCommonFriends(@PathVariable int id, @PathVariable int otherId) {
+        return userService.getCommonFriends(id, otherId);
     }
-
 }
