@@ -20,7 +20,6 @@ public class FilmService {
 
     private final FilmDaoStorage filmDaoStorage;
     private final LikeDaoStorage likeDaoStorage;
-
     private final GenreDaoStorage genreDaoStorage;
     private final FilmGenresDaoStorage filmGenresDaoStorage;
 
