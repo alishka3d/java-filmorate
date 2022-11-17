@@ -75,7 +75,7 @@ public class FilmDbStorage implements FilmDaoStorage {
         String sql =
                 "UPDATE FILMS " +
                         "SET NAME = ?,DESCRIPTION = ? ,RELEASE_DATE = ? , " +
-                        "DURATION = ?, MPA_ID =? " +
+                        "DURATION = ?, MPA_ID = ? " +
                         "WHERE FILM_ID = ?";
         jdbcTemplate.update(sql, film.getName(), film.getDescription(), film.getReleaseDate(),
                 film.getDuration(), film.getMpa().getId(), film.getId());
@@ -111,6 +111,17 @@ public class FilmDbStorage implements FilmDaoStorage {
         log.info("Удалён фильм {}", film.getName());
     }
 
+    private Film makeFilm(ResultSet rs) throws SQLException {
+        Film film = new Film();
+        film.setId(rs.getInt("FILM_ID"));
+        film.setName(rs.getString("NAME"));
+        film.setDescription(rs.getString("DESCRIPTION"));
+        film.setReleaseDate(rs.getDate("RELEASE_DATE").toLocalDate());
+        film.setDuration(rs.getInt("DURATION"));
+        film.setMpa(new Mpa(rs.getInt("MPA_ID"), rs.getString("MPA_NAME")));
+        return film;
+    }
+
     @Override
     public List<Film> popularFilms(Integer count) {
         String sql =
@@ -123,16 +134,5 @@ public class FilmDbStorage implements FilmDaoStorage {
                         "ORDER BY COUNT(L.USER_ID) DESC " +
                         "limit ?";
         return jdbcTemplate.query(sql, (rs, rowNum) -> makeFilm(rs), count);
-    }
-
-    private Film makeFilm(ResultSet rs) throws SQLException {
-        Film film = new Film();
-        film.setId(rs.getInt("FILM_ID"));
-        film.setName(rs.getString("NAME"));
-        film.setDescription(rs.getString("DESCRIPTION"));
-        film.setReleaseDate(rs.getDate("RELEASE_DATE").toLocalDate());
-        film.setDuration(rs.getInt("DURATION"));
-        film.setMpa(new Mpa(rs.getInt("MPA_ID"), rs.getString("MPA_NAME")));
-        return film;
     }
 }
