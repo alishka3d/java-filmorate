@@ -50,7 +50,7 @@ public class FilmDbStorage implements FilmDaoStorage {
             throw new ValidationException("Некорректно заполнено одно из полей");
         }
         String sqlQuery = "INSERT INTO films (NAME,DESCRIPTION , RELEASE_DATE, DURATION, MPA_ID) " +
-                "VALUES (?, ?, ?, ?, ?);";
+                            "VALUES (?, ?, ?, ?, ?);";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sqlQuery, new String[]{"FILM_ID"});
