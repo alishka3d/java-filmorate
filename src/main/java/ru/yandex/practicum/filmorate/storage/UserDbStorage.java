@@ -86,13 +86,19 @@ public class UserDbStorage implements UserDaoStorage {
         if (id < 1) {
             throw new UserNotFoundException("Введен некорректный идентификатор пользователя.");
         }
-        String sql =
-                "SELECT * " +
-                        "FROM USERS " +
-                        "WHERE USER_ID = ?";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> makeUser(rs), id)
-                .stream()
-                .findAny().orElse(null);
+        for (User user: getUsers()) {
+            if (user.getId() == id) {
+                String sql =
+                        "SELECT * " +
+                                "FROM USERS " +
+                                "WHERE USER_ID = ?";
+                return jdbcTemplate.query(sql, (rs, rowNum) -> makeUser(rs), id)
+                        .stream()
+                        .findAny().orElse(null);
+            }
+        }
+        log.error("Id пользователя не найдено.");
+        throw new UserNotFoundException("Id пользователя не найдено.");
     }
 
     @Override

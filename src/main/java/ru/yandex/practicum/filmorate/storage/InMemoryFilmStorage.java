@@ -1,3 +1,4 @@
+/*
 package ru.yandex.practicum.filmorate.storage;
 
 import lombok.Getter;
@@ -92,3 +93,4 @@ public class InMemoryFilmStorage implements FilmStorage {
         }
     }
 }
+*/

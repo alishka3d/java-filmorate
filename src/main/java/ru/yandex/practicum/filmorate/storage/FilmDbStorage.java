@@ -88,14 +88,20 @@ public class FilmDbStorage implements FilmDaoStorage {
         if (id < 1) {
             throw new FilmNotFoundException("Введен некорректный идентификатор фильма.");
         }
-        String sql =
-                "SELECT F.FILM_ID, F.NAME, F.DESCRIPTION, F.RELEASE_DATE," +
-                        "F.DURATION, F.MPA_ID, R.MPA_NAME " +
-                        "FROM FILMS F " +
-                        "JOIN MPA_RATINGS AS R ON F.MPA_ID = R.MPA_ID " +
-                        "WHERE F.FILM_ID = ?";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> makeFilm(rs), id)
-                .stream().findAny().orElse(null);
+        for (Film film: getFilms()) {
+            if (film.getId() == id) {
+                String sql =
+                        "SELECT F.FILM_ID, F.NAME, F.DESCRIPTION, F.RELEASE_DATE," +
+                                "F.DURATION, F.MPA_ID, R.MPA_NAME " +
+                                "FROM FILMS F " +
+                                "JOIN MPA_RATINGS AS R ON F.MPA_ID = R.MPA_ID " +
+                                "WHERE F.FILM_ID = ?";
+                return jdbcTemplate.query(sql, (rs, rowNum) -> makeFilm(rs), id)
+                        .stream().findAny().orElse(null);
+            }
+        }
+        log.error("Фильм не найден");
+        throw new FilmNotFoundException("Фильм не найден");
     }
 
     @Override
