@@ -24,12 +24,18 @@ public class DbGenreStorage implements GenreStorage {
         if (genreId < 1) {
             throw new EntityNotFoundException("Введен некорректный идентификатор жанра.");
         }
-        String sql =
-                "SELECT * " +
-                        "FROM GENRES " +
-                        "WHERE GENRE_ID = ?";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> makeGenre(rs), genreId)
-                .stream().findAny().orElse(null);
+        List<Genre> genres = getAllGenres();
+        for (Genre genre : genres) {
+            if (genre.getId() == genreId) {
+                String sql =
+                        "SELECT * " +
+                                "FROM GENRES " +
+                                "WHERE GENRE_ID = ?";
+                return jdbcTemplate.query(sql, (rs, rowNum) -> makeGenre(rs), genreId)
+                        .stream().findAny().orElse(null);
+            }
+        }
+        throw new EntityNotFoundException("Введен некорректный идентификатор жанра.");
     }
 
     @Override
