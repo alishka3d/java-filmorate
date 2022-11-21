@@ -15,7 +15,7 @@ import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
-public class GenreDbStorage implements GenreDaoStorage {
+public class DbGenreStorage implements GenreStorage {
 
     private final JdbcTemplate jdbcTemplate;
 

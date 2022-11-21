@@ -22,7 +22,7 @@ import java.util.Objects;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class FilmDbStorage implements FilmDaoStorage {
+public class DbFilmStorage implements FilmStorage {
 
     private final JdbcTemplate jdbcTemplate;
     private final FilmCustomValidator customValidator;
@@ -49,7 +49,7 @@ public class FilmDbStorage implements FilmDaoStorage {
             log.info("Попытка добавить фильм с некорректной информацией");
             throw new ValidationException("Некорректно заполнено одно из полей");
         }
-        String sqlQuery = "INSERT INTO films (NAME,DESCRIPTION , RELEASE_DATE, DURATION, MPA_ID) " +
+        String sqlQuery = "INSERT INTO films (NAME, DESCRIPTION, RELEASE_DATE, DURATION, MPA_ID) " +
                             "VALUES (?, ?, ?, ?, ?);";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
@@ -88,7 +88,8 @@ public class FilmDbStorage implements FilmDaoStorage {
         if (id < 1) {
             throw new FilmNotFoundException("Введен некорректный идентификатор фильма.");
         }
-        for (Film film: getFilms()) {
+        List<Film> films = getFilms();
+        for (Film film: films) {
             if (film.getId() == id) {
                 String sql =
                         "SELECT F.FILM_ID, F.NAME, F.DESCRIPTION, F.RELEASE_DATE," +

@@ -10,9 +10,9 @@ import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
-public class LikeDbStorage implements LikeDaoStorage {
+public class DbLikeStorage implements LikeStorage {
     private final JdbcTemplate jdbcTemplate;
-    private final UserDaoStorage userDaoStorage;
+    private final UserStorage userStorage;
 
     @Override
     public void putLike(int id, int userId) {
@@ -28,7 +28,7 @@ public class LikeDbStorage implements LikeDaoStorage {
 
     @Override
     public void removeLikes(int id, int userId) {
-        if (userDaoStorage.getUsers().stream().noneMatch(u -> Objects.equals(u.getId(), userId))) {
+        if (userStorage.getUsers().stream().noneMatch(u -> Objects.equals(u.getId(), userId))) {
             throw new UserNotFoundException("Идентификатор пользователя не найден");
         }
         if (id < 1) {

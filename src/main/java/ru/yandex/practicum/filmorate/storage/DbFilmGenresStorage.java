@@ -16,7 +16,7 @@ import java.util.Set;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class FilmGenresDbStorage implements FilmGenresDaoStorage {
+public class DbFilmGenresStorage implements FilmGenresStorage {
 
     private final JdbcTemplate jdbcTemplate;
     private final FilmCustomValidator customValidator;

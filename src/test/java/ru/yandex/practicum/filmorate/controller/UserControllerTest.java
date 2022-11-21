@@ -1,16 +1,14 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
-import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
-import ru.yandex.practicum.filmorate.storage.FriendsDaoStorage;
+import ru.yandex.practicum.filmorate.storage.FriendsStorage;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -24,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserControllerTest {
 
     private final UserService userService;
-    private final FriendsDaoStorage friendsDaoStorage;
+    private final FriendsStorage friendsStorage;
 
 
     @Test
@@ -116,8 +114,8 @@ class UserControllerTest {
         userTwo.setName("Ivan");
         userTwo.setBirthday(LocalDate.of(1993, 10, 13));
         userService.createUser(userTwo);
-        friendsDaoStorage.addFriend(userOne.getId(), userTwo.getId());
-        assertEquals(1, friendsDaoStorage.getAllFriendsUser(userOne.getId()).size());
+        friendsStorage.addFriend(userOne.getId(), userTwo.getId());
+        assertEquals(1, friendsStorage.getAllFriendsUser(userOne.getId()).size());
     }
 
     @Test
@@ -141,10 +139,10 @@ class UserControllerTest {
         userThree.setName("Pavelomsk");
         userThree.setBirthday(LocalDate.of(1996, 10, 13));
         userService.createUser(userThree);
-        friendsDaoStorage.addFriend(userOne.getId(), userTwo.getId());
-        friendsDaoStorage.addFriend(userOne.getId(), userThree.getId());
-        friendsDaoStorage.deleteFriend(userOne.getId(), userTwo.getId());
-        assertEquals(1, friendsDaoStorage.getAllFriendsUser(userOne.getId()).size());
+        friendsStorage.addFriend(userOne.getId(), userTwo.getId());
+        friendsStorage.addFriend(userOne.getId(), userThree.getId());
+        friendsStorage.deleteFriend(userOne.getId(), userTwo.getId());
+        assertEquals(1, friendsStorage.getAllFriendsUser(userOne.getId()).size());
     }
 
     @Test
@@ -168,8 +166,8 @@ class UserControllerTest {
         userThree.setName("Pavelomsk");
         userThree.setBirthday(LocalDate.of(1996, 10, 13));
         userService.createUser(userThree);
-        friendsDaoStorage.addFriend(userOne.getId(), userTwo.getId());
-        friendsDaoStorage.addFriend(userOne.getId(), userThree.getId());
-        assertEquals(2, friendsDaoStorage.getAllFriendsUser(userOne.getId()).size());
+        friendsStorage.addFriend(userOne.getId(), userTwo.getId());
+        friendsStorage.addFriend(userOne.getId(), userThree.getId());
+        assertEquals(2, friendsStorage.getAllFriendsUser(userOne.getId()).size());
     }
 }
