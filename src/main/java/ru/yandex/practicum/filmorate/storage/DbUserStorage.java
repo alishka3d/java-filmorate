@@ -21,7 +21,7 @@ import java.util.Objects;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class UserDbStorage implements UserDaoStorage {
+public class DbUserStorage implements UserStorage {
 
     private final JdbcTemplate jdbcTemplate;
     private final UserCustomValidator customValidator;

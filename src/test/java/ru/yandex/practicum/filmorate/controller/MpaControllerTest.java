@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import ru.yandex.practicum.filmorate.model.Mpa;
-import ru.yandex.practicum.filmorate.storage.MpaDaoStorage;
+import ru.yandex.practicum.filmorate.storage.MpaStorage;
 
 import java.util.Optional;
 
@@ -19,13 +19,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class MpaControllerTest {
 
-    private final MpaDaoStorage mpaDaoStorage;
+    private final MpaStorage mpaStorage;
 
     @Test
     @DisplayName("Find Mpa")
     public void testFindMpa() {
 
-        Optional<Mpa> mpaOptional = Optional.ofNullable(mpaDaoStorage.getMpaById(1));
+        Optional<Mpa> mpaOptional = Optional.ofNullable(mpaStorage.getMpaById(1));
 
         assertThat(mpaOptional)
                 .isPresent()
@@ -37,6 +37,6 @@ public class MpaControllerTest {
     @Test
     @DisplayName("FindAll")
     public void testFindAll() {
-        assertEquals(5, mpaDaoStorage.getAllMpa().size());
+        assertEquals(5, mpaStorage.getAllMpa().size());
     }
 }

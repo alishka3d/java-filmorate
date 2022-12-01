@@ -1,6 +1,6 @@
 package ru.yandex.practicum.filmorate.storage;
 
-public interface LikeDaoStorage {
+public interface LikeStorage {
 
     void putLike(int id, int userId);
 

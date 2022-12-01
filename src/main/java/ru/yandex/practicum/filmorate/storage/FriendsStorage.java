@@ -4,7 +4,7 @@ import ru.yandex.practicum.filmorate.model.User;
 
 import java.util.List;
 
-public interface FriendsDaoStorage {
+public interface FriendsStorage {
 
     List<User> getAllFriendsUser(int userId);
 

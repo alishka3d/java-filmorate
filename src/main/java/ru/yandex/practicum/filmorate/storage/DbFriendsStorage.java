@@ -14,16 +14,16 @@ import java.util.stream.Collectors;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class FriendsDbStorage implements FriendsDaoStorage {
+public class DbFriendsStorage implements FriendsStorage {
 
     private final JdbcTemplate jdbcTemplate;
-    private final UserDaoStorage userDaoStorage;
+    private final UserStorage userStorage;
 
     @Override
     public void addFriend(int userId, int friendId) {
-        if (userDaoStorage.getUsers().stream().noneMatch(u -> Objects.equals(u.getId(), userId))) {
+        if (userStorage.getUsers().stream().noneMatch(u -> Objects.equals(u.getId(), userId))) {
             throw new UserNotFoundException("Идентификатор пользователя не найден");
-        } else if (userDaoStorage.getUsers().stream().noneMatch(u -> Objects.equals(u.getId(), friendId))) {
+        } else if (userStorage.getUsers().stream().noneMatch(u -> Objects.equals(u.getId(), friendId))) {
             throw new UserNotFoundException("Идентификатор друга не найден");
         }
         String sql =
@@ -41,15 +41,15 @@ public class FriendsDbStorage implements FriendsDaoStorage {
         List<Integer> friendsUser = jdbcTemplate.queryForList(sql, Integer.class, id);
         log.info("Все друзья пользователя с id {}:", id);
         return friendsUser.stream()
-                .map(userDaoStorage::findById)
+                .map(userStorage::findById)
                 .collect(Collectors.toList());
     }
 
     @Override
     public void deleteFriend(int userId, int friendId) {
-        if (userDaoStorage.getUsers().stream().noneMatch(u -> Objects.equals(u.getId(), userId))) {
+        if (userStorage.getUsers().stream().noneMatch(u -> Objects.equals(u.getId(), userId))) {
             throw new UserNotFoundException("Идентификатор пользователя не найден");
-        } else if (userDaoStorage.getUsers().stream().noneMatch(u -> Objects.equals(u.getId(), friendId))) {
+        } else if (userStorage.getUsers().stream().noneMatch(u -> Objects.equals(u.getId(), friendId))) {
             throw new UserNotFoundException("Идентификатор друга не найден");
         }
         String sql =

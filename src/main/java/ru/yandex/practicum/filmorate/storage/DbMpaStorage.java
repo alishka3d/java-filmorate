@@ -12,7 +12,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class MpaDbStorage implements MpaDaoStorage {
+public class DbMpaStorage implements MpaStorage {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -21,12 +21,18 @@ public class MpaDbStorage implements MpaDaoStorage {
         if (id < 1) {
             throw new EntityNotFoundException("Некорректный идентификатор возрастного ограничения");
         }
-        String sql =
-                "SELECT * " +
-                        "FROM MPA_RATINGS " +
-                        "WHERE MPA_ID = ?";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> makeMpa(rs), id)
-                .stream().findAny().orElse(null);
+        List<Mpa> mpaList = getAllMpa();
+        for (Mpa mpa: mpaList) {
+            if (mpa.getId() == id) {
+                String sql =
+                        "SELECT * " +
+                                "FROM MPA_RATINGS " +
+                                "WHERE MPA_ID = ?";
+                return jdbcTemplate.query(sql, (rs, rowNum) -> makeMpa(rs), id)
+                        .stream().findAny().orElse(null);
+            }
+        }
+        throw new EntityNotFoundException("Некорректный идентификатор возрастного ограничения");
     }
 
     @Override

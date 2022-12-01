@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import ru.yandex.practicum.filmorate.model.Genre;
-import ru.yandex.practicum.filmorate.storage.GenreDaoStorage;
+import ru.yandex.practicum.filmorate.storage.GenreStorage;
 
 import java.util.Optional;
 
@@ -19,13 +19,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class GenreControllerTest {
 
-    private final GenreDaoStorage genreDaoStorage;
+    private final GenreStorage genreStorage;
 
     @Test
     @DisplayName("Find Genre")
     public void testFindGenre() {
 
-        Optional<Genre> genreOptional = Optional.ofNullable(genreDaoStorage.getGenreById(1));
+        Optional<Genre> genreOptional = Optional.ofNullable(genreStorage.getGenreById(1));
 
         assertThat(genreOptional)
                 .isPresent()
@@ -37,7 +37,7 @@ public class GenreControllerTest {
     @Test
     @DisplayName("FindAll")
     public void testFindAll() {
-        assertEquals(6, genreDaoStorage.getAllGenres().size());
+        assertEquals(6, genreStorage.getAllGenres().size());
     }
 
 }
